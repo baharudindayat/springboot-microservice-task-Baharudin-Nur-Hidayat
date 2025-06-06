@@ -1,20 +1,21 @@
 package com.simple.book.service;
 
-import com.simple.book.dto.BooksDto;
+import com.simple.book.dto.BooksAddDto;
+import com.simple.book.dto.BooksResponseDto;
 
 import java.util.List;
 
 public interface BooksService {
 
-    String postBook(BooksDto booksDto);
+    String postBook(BooksAddDto booksAddDto);
 
-    List<BooksDto> getAllBooks();
+    List<BooksResponseDto> getAllBooks();
 
-    BooksDto getBookById(Long id);
+    BooksResponseDto getBookById(Long id);
 
-    String updateBook(Long id, BooksDto booksDto);
+    String updateBook(Long id, BooksAddDto booksAddDto);
 
-    String patchBook(Long id, BooksDto booksDto);
+    String patchBook(Long id, BooksResponseDto booksResponseDto);
 
     String deleteBook(Long id);
 }

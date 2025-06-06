@@ -1,6 +1,7 @@
 package com.simple.book.service.impl;
 
-import com.simple.book.dto.BooksDto;
+import com.simple.book.dto.BooksAddDto;
+import com.simple.book.dto.BooksResponseDto;
 import com.simple.book.exception.NotFoundException;
 import com.simple.book.model.entity.Books;
 import com.simple.book.repository.BooksRepository;
@@ -18,14 +19,14 @@ public class BooksServiceImpl implements BooksService {
 
 
     @Override
-    public String postBook(BooksDto booksDto) {
-        Books books = booksDtoToEntity(booksDto);
+    public String postBook(BooksAddDto booksAddDto) {
+        Books books = booksResponseDtoToEntity(booksAddDto);
         booksRepository.save(books);
         return "Book added successfully with ID: " + books.getId();
     }
 
     @Override
-    public List<BooksDto> getAllBooks() {
+    public List<BooksResponseDto> getAllBooks() {
         List<Books> booksList = booksRepository.findAll();
         return booksList.stream()
                 .map(this::booksEntityToDto)
@@ -33,41 +34,40 @@ public class BooksServiceImpl implements BooksService {
     }
 
     @Override
-    public BooksDto getBookById(Long id) {
+    public BooksResponseDto getBookById(Long id) {
         Books books = booksRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Book not found with ID: " + id));
         return booksEntityToDto(books);
     }
 
     @Override
-    public String updateBook(Long id, BooksDto booksDto) {
+    public String updateBook(Long id, BooksAddDto booksAddDto) {
         Books existingBook = booksRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Book not found with ID: " + id));
-        existingBook.setTitle(booksDto.getTitle());
-        existingBook.setAuthor(booksDto.getAuthor());
-        existingBook.setIsbn(booksDto.getIsbn());
-        existingBook.setPublishedDate(booksDto.getPublishedDate());
-
+        existingBook.setTitle(booksAddDto.getTitle());
+        existingBook.setAuthor(booksAddDto.getAuthor());
+        existingBook.setIsbn(booksAddDto.getIsbn());
+        existingBook.setPublishedDate(booksAddDto.getPublishedDate());
         booksRepository.save(existingBook);
         return "Book updated successfully with ID: " + existingBook.getId();
     }
 
     @Override
-    public String patchBook(Long id, BooksDto booksDto) {
+    public String patchBook(Long id, BooksResponseDto booksResponseDto) {
         Books existingBook = booksRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Book not found with ID: " + id));
 
-        if (booksDto.getTitle() != null) {
-            existingBook.setTitle(booksDto.getTitle());
+        if (booksResponseDto.getTitle() != null) {
+            existingBook.setTitle(booksResponseDto.getTitle());
         }
-        if (booksDto.getAuthor() != null) {
-            existingBook.setAuthor(booksDto.getAuthor());
+        if (booksResponseDto.getAuthor() != null) {
+            existingBook.setAuthor(booksResponseDto.getAuthor());
         }
-        if (booksDto.getIsbn() != null) {
-            existingBook.setIsbn(booksDto.getIsbn());
+        if (booksResponseDto.getIsbn() != null) {
+            existingBook.setIsbn(booksResponseDto.getIsbn());
         }
-        if (booksDto.getPublishedDate() != null) {
-            existingBook.setPublishedDate(booksDto.getPublishedDate());
+        if (booksResponseDto.getPublishedDate() != null) {
+            existingBook.setPublishedDate(booksResponseDto.getPublishedDate());
         }
 
         booksRepository.save(existingBook);
@@ -82,18 +82,18 @@ public class BooksServiceImpl implements BooksService {
         return "Book deleted successfully with ID: " + existingBook.getId();
     }
 
-    private Books booksDtoToEntity(BooksDto booksDto) {
-        return Books.builder()
-                .id(booksDto.getId())
-                .title(booksDto.getTitle())
-                .author(booksDto.getAuthor())
-                .isbn(booksDto.getIsbn())
-                .publishedDate(booksDto.getPublishedDate())
+    private BooksResponseDto booksEntityToDto(Books books) {
+        return BooksResponseDto.builder()
+                .id(books.getId())
+                .title(books.getTitle())
+                .author(books.getAuthor())
+                .isbn(books.getIsbn())
+                .publishedDate(books.getPublishedDate())
                 .build();
     }
-    private BooksDto booksEntityToDto(Books books) {
-        return BooksDto.builder()
-                .id(books.getId())
+
+    private Books booksResponseDtoToEntity(BooksAddDto books) {
+        return Books.builder()
                 .title(books.getTitle())
                 .author(books.getAuthor())
                 .isbn(books.getIsbn())

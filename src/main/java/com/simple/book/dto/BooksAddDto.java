@@ -6,9 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class BooksDto {
-
-    private Long id;
+public class BooksAddDto {
 
     @NotNull(message = "Title cannot be null")
     private String title;
