@@ -3,6 +3,8 @@ package com.simple.book.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 @Data
 @Entity
 @Getter
@@ -23,10 +25,10 @@ public class Books {
     @Column(name = "author", nullable = false, length = 255)
     private String author;
 
-    @Column(name = "isbn", nullable = false, unique = true, length = 20)
+    @Column(name = "isbn", nullable = false, unique = true, length = 13)
     private String isbn;
 
     @Column(name = "published_date", nullable = false)
-    private String publishedDate;
+    private Date publishedDate;
 
 }

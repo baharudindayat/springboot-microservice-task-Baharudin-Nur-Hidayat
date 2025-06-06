@@ -1,10 +1,15 @@
 package com.simple.book.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
+
+import java.util.Date;
 
 @Data
 @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class BooksResponseDto {
 
     private Long id;
@@ -15,5 +20,5 @@ public class BooksResponseDto {
 
     private String isbn;
 
-    private String publishedDate;
+    private Date publishedDate;
 }

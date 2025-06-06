@@ -1,22 +1,28 @@
 package com.simple.book.dto;
 
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
+
+import java.util.Date;
 
 @Data
 @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class BooksAddDto {
 
-    @NotNull(message = "Title cannot be null")
+    @NotEmpty(message = "Title cannot be null")
     private String title;
 
-    @NotNull(message = "Author cannot be null")
+    @NotEmpty(message = "Author cannot be null")
     private String author;
 
-    @NotNull(message = "ISBN cannot be null")
+    @NotEmpty(message = "ISBN cannot be null")
     private String isbn;
 
-    @NotNull(message = "Published date cannot be null")
-    private String publishedDate;
+    @NotEmpty(message = "Published date cannot be null")
+    private Date publishedDate;
 }

@@ -2,6 +2,7 @@ package com.simple.book.service.impl;
 
 import com.simple.book.dto.BooksAddDto;
 import com.simple.book.dto.BooksResponseDto;
+import com.simple.book.exception.BadRequestException;
 import com.simple.book.exception.NotFoundException;
 import com.simple.book.model.entity.Books;
 import com.simple.book.repository.BooksRepository;
@@ -20,7 +21,11 @@ public class BooksServiceImpl implements BooksService {
 
     @Override
     public String postBook(BooksAddDto booksAddDto) {
-        Books books = booksResponseDtoToEntity(booksAddDto);
+        if (booksAddDto.getTitle() == null || booksAddDto.getAuthor() == null ||
+                booksAddDto.getIsbn() == null || booksAddDto.getPublishedDate() == null) {
+            throw new BadRequestException("All fields are required to add a book.");
+        }
+        Books books = BooksAddDtoToEntity(booksAddDto);
         booksRepository.save(books);
         return "Book added successfully with ID: " + books.getId();
     }
@@ -42,6 +47,10 @@ public class BooksServiceImpl implements BooksService {
 
     @Override
     public String updateBook(Long id, BooksAddDto booksAddDto) {
+        if (booksAddDto.getTitle() == null || booksAddDto.getAuthor() == null ||
+                booksAddDto.getIsbn() == null || booksAddDto.getPublishedDate() == null) {
+            throw new BadRequestException("All fields are required to update a book.");
+        }
         Books existingBook = booksRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Book not found with ID: " + id));
         existingBook.setTitle(booksAddDto.getTitle());
@@ -92,7 +101,7 @@ public class BooksServiceImpl implements BooksService {
                 .build();
     }
 
-    private Books booksResponseDtoToEntity(BooksAddDto books) {
+    private Books BooksAddDtoToEntity(BooksAddDto books) {
         return Books.builder()
                 .title(books.getTitle())
                 .author(books.getAuthor())
