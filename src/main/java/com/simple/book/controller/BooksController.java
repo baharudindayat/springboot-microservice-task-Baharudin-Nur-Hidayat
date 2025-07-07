@@ -17,6 +17,7 @@ public class BooksController {
 
     private final BooksService booksService;
 
+
     @PostMapping(
             consumes = "application/json",
             produces = "application/json"
@@ -39,7 +40,7 @@ public class BooksController {
                 .body(GeneralResponse.builder()
                         .message("Books retrieved successfully")
                         .status("success")
-                        .data(booksService.getAllBooks())
+                        .data(booksService.getBuku())
                         .build());
     }
 
@@ -104,6 +105,19 @@ public class BooksController {
                         .message("Book deleted successfully")
                         .status("success")
                         .data(booksService.deleteBook(id))
+                        .build());
+    }
+
+    @GetMapping(
+            value = "/count",
+            produces = "application/json"
+    )
+    public ResponseEntity<GeneralResponse<?>> countBooks() {
+        return ResponseEntity.ok()
+                .body(GeneralResponse.builder()
+                        .message("Book count retrieved successfully")
+                        .status("success")
+                        .data(booksService.countBooks())
                         .build());
     }
 }

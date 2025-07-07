@@ -1,17 +1,18 @@
 server:
   port: 9000
 
+
 spring:
   application:
     name: books
   datasource:
-    url:
-    username:
-    password:
+    url: jdbc:postgresql://localhost:5432/books
+    username: postgres
+    password: 220702
     driver-class-name: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
 
 debug: true

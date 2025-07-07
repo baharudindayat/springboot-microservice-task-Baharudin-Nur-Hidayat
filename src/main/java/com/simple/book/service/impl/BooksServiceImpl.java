@@ -6,6 +6,7 @@ import com.simple.book.exception.BadRequestException;
 import com.simple.book.exception.NotFoundException;
 import com.simple.book.model.entity.Books;
 import com.simple.book.repository.BooksRepository;
+import com.simple.book.repository.BukuRepository;
 import com.simple.book.service.BooksService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,8 @@ import java.util.List;
 public class BooksServiceImpl implements BooksService {
 
     private final BooksRepository booksRepository;
+
+    private final BukuRepository bukuRepository;
 
 
     @Override
@@ -40,8 +43,7 @@ public class BooksServiceImpl implements BooksService {
 
     @Override
     public BooksResponseDto getBookById(Long id) {
-        Books books = booksRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Book not found with ID: " + id));
+        Books books = bukuRepository.findById(id);
         return booksEntityToDto(books);
     }
 
@@ -90,6 +92,17 @@ public class BooksServiceImpl implements BooksService {
         booksRepository.delete(existingBook);
         return "Book deleted successfully with ID: " + existingBook.getId();
     }
+
+    @Override
+    public List<Books> getBuku() {
+        return bukuRepository.findAll();
+    }
+
+    @Override
+    public int countBooks() {
+        return (int) booksRepository.count();
+    }
+
 
     private BooksResponseDto booksEntityToDto(Books books) {
         return BooksResponseDto.builder()

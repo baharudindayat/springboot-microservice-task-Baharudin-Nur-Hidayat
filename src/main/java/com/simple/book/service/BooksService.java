@@ -2,6 +2,7 @@ package com.simple.book.service;
 
 import com.simple.book.dto.BooksAddDto;
 import com.simple.book.dto.BooksResponseDto;
+import com.simple.book.model.entity.Books;
 
 import java.util.List;
 
@@ -18,4 +19,9 @@ public interface BooksService {
     String patchBook(Long id, BooksResponseDto booksResponseDto);
 
     String deleteBook(Long id);
+
+    List<Books> getBuku();
+
+    int countBooks();
+
 }
